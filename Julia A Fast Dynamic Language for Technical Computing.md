@@ -17,6 +17,9 @@ September 25, 2012
 
 ## Abstract
  
+
+```@raw html
+<!--
 Dynamic languages have become popular for scientiﬁc computing. They are generally
 considered highly productive, but lacking in performance. This paper presents Julia, a new
 dynamic language for technical computing, designed for performance from the beginning
@@ -25,6 +28,9 @@ generic functions and a rich type system simultaneously enables an expressive pr
 model and successful type inference, leading to good performance for a wide range of
 programs. This makes it possible for much of Julia’s library to be written in Julia itself,
 while also incorporating best-of-breed C and Fortran libraries.
+-->
+```
+
 
 ## 1 Introduction
  
@@ -48,16 +54,6 @@ algorithms, where code complexity can increase dramatically. Instead, there is p
 write “vectorized” code, which is unnatural for many problems and might generate large
 temporary objects which could be avoided with explicit loops. Programming in two languages
 is more complex than using either language by itself due to the need for mediation between
-∗
-Email: bezanson@mit.edu
-†
-Email: stefan@karpinski.org
-‡
-Email: viral@mayin.org
-§
-email: edelman@math.mit.edu
-1
-arXiv:1209.5145v1  [cs.PL]  24 Sep 2012
 diﬀerent type domains and memory management schemes. Interfacing between layers may
 add signiﬁcant overhead and makes whole-program optimization diﬃcult. Two-tiered systems
 also present a social barrier, preventing most users from understanding or contributing to
@@ -94,6 +90,14 @@ into user code and vice versa. Julia was announced as an open source project in 
 and extend it for their own purposes. Our goals and work so far seem to have struck a chord
 — a signiﬁcant community has grown around Julia in the short time since the initial public
 announcement.
+∗
+Email: bezanson@mit.edu
+†
+Email: stefan@karpinski.org
+‡
+Email: viral@mayin.org
+§
+email: edelman@math.mit.edu
 
 ##  2 Language Design
  
