@@ -352,13 +352,13 @@ foo(Int,Int) is defined first.
 A for loop is translated to a while loop with method calls according to an iteration interface
 (start, done, and next).
 for i in range
-# body
+[]# body
 end
 Becomes:
 state = start(range)
 while !done(range, state)
 (i, state) = next(range, state)
-# body
+[]# body
 end
 This design for iteration was chosen because it is not tied to mutable heap-allocated state,
 such as an iterator object that updates itself.
