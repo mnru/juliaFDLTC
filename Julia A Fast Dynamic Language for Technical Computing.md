@@ -1,5 +1,6 @@
 
-#Julia: A Fast Dynamic Language for Technical Computing
+# Julia: A Fast Dynamic Language for Technical Computing
+ 
 Jeﬀ Bezanson
 ∗
 MIT
@@ -14,7 +15,8 @@ MIT
 September 25, 2012
 
 
-##Abstract
+## Abstract
+ 
 Dynamic languages have become popular for scientiﬁc computing. They are generally
 considered highly productive, but lacking in performance. This paper presents Julia, a new
 dynamic language for technical computing, designed for performance from the beginning
@@ -24,7 +26,8 @@ model and successful type inference, leading to good performance for a wide rang
 programs. This makes it possible for much of Julia’s library to be written in Julia itself,
 while also incorporating best-of-breed C and Fortran libraries.
 
-##1 Introduction
+## 1 Introduction
+ 
 Convenience is winning. Despite advances in compiler technology and execution for high-
 performance computing, programmers continue to prefer high-level dynamic languages for
 algorithm development and data analysis in applied math, engineering, and the sciences.
@@ -92,7 +95,9 @@ and extend it for their own purposes. Our goals and work so far seem to have str
 — a signiﬁcant community has grown around Julia in the short time since the initial public
 announcement.
 
-##2 Language Design
+##  2 Language Design
+ 
+ 
 Julia’s primary means of abstraction is dynamic multiple dispatch. Much of a language consists
 of mechanisms for selecting code to run in diﬀerent situations — from method selection to
 instruction selection. We use only dynamic multiple dispatch for this purpose, which is possible
@@ -112,7 +117,8 @@ run time (or at compile time, to the extent types are known then). Eﬀectively,
 a template (in the C++ sense) by default, with parameterization and instantiation directed by
 the compiler. We introduce some type-based heuristics for controlling method specialization.
 
-###2.1 Rationale
+### 2.1 Rationale
+ 
 In past work on optimizing dynamic languages, researchers have observed that programs are
 not as dynamic as their authors might think: “We found that dynamic features are pervasive
 throughout the benchmarks and the libraries they include, but that most uses of these features
@@ -141,7 +147,8 @@ function taken from an untyped data structure, or dynamically dispatching a meth
 to unknown argument types.
 3
 
-###2.2 Core Language Overview
+### 2.2 Core Language Overview
+ 
 The core Julia language contains the following components:
 1. A syntax layer, to translate surface syntax to a suitable intermediate representation
 (IR).
@@ -160,7 +167,8 @@ labels, and conditional branches. Julia’s semantics are those of a standard im
 statements are executed in order, with function arguments evaluated eagerly. All values are
 conceptually references, and are passed by reference as in LISP.
 
-###2.3 Types
+### 2.3 Types
+ 
 Julia treats types as symbolic descriptions of sets of values. Every value has a unique,
 immutable, run-time implementation type. Objects carry type tags, and types themselves are
 Julia objects that can be created and inspected at run time. Julia has ﬁve kinds of types:
@@ -223,7 +231,8 @@ the popular patterns of object-oriented programming, while leaving the core lang
 fewer distinct features.
 5
 
-###2.6 Method Deﬁnition
+### 2.6 Method Deﬁnition
+ 
 Method deﬁnitions have a long (multi-line) form and a short form.
 function iszero(x::Number)
 return x==0
@@ -257,7 +266,8 @@ function ^(x::Float64, p::Float64)
 function ^(x, p::Int)
 function ^(x::Matrix, p)
 
-###2.7 Parametric Methods
+### 2.7 Parametric Methods
+ 
 It is often useful to refer to parameters of argument types inside methods, and to specify
 constraints on those parameters for dispatch purposes. Method parameters address these needs.
 These parameters behave a bit like arguments, but they are always derived automatically from
@@ -273,7 +283,8 @@ types (e.g. all integer arrays, or all numeric arrays) despite invariance. The o
 writing “diagonal” constraints as in the example above. Such diagonal constraints signiﬁcantly
 complicate the type lattice operators.
 
-###2.8 Constructors
+### 2.8 Constructors
+ 
 Composite types are applied as functions to construct instances. The default constructor
 accepts values for each ﬁeld as arguments. Users may override the default constructor by
 writing method deﬁnitions with the same name as the type inside the type deﬁnition block.
@@ -292,7 +303,8 @@ end
 end
 This allows Rational to enforce representation as a fraction in lowest terms.
 
-###2.9 Singleton Kinds
+### 2.9 Singleton Kinds
+ 
 A generic function’s method table is eﬀectively a dictionary where the keys are types. This
 suggests that it should be just as easy to deﬁne or look up methods with types themselves as
 with the types of values. Deﬁning methods on types directly is analogous to deﬁning class
@@ -317,7 +329,8 @@ example by calling the typeof function or applying type constructors. As a resul
 the performance and ﬂexibility advantages of static parameters (such as template arguments)
 without special syntax.
 
-###2.10 Method Sorting and Ambiguity
+### 2.10 Method Sorting and Ambiguity
+ 
 Methods are stored sorted by speciﬁcity, so the ﬁrst matching method (as determined by the
 subtype predicate) is always the correct one to invoke. This means much of the dispatch logic
 is contained in the sorting process. Comparing method signatures for speciﬁcity is not trivial.
@@ -362,7 +375,8 @@ Warning: New definition foo(Int,Number) is
 ambiguous with foo(Number,Int). Make sure
 foo(Int,Int) is defined first.
 
-###2.11 Iteration
+### 2.11 Iteration
+ 
 A for loop is translated to a while loop with method calls according to an iteration interface
 (start, done, and next).
 for i in range
@@ -377,7 +391,8 @@ end
 This design for iteration was chosen because it is not tied to mutable heap-allocated state,
 such as an iterator object that updates itself.
 
-###2.12 Special Operators
+### 2.12 Special Operators
+ 
 Special syntax is provided for certain functions.
 surface syntax lowered form
 a[i, j] ref(a, i, j)
@@ -387,7 +402,8 @@ a[i, j] = x assign(a, x, i, j)
 [a b] hcat(a, b)
 [a b; c d] hvcat((2,2), a, b, c, d)
 
-###2.13 Calling C and Fortran
+### 2.13 Calling C and Fortran
+ 
 We provide the keyword ccall for calling native code in-line. Its syntax looks like a function
 call, where the programmer speciﬁes an address, result and argument types, and argument
 values:
@@ -403,7 +419,8 @@ to Float64 and pass by reference. To resolve this ambiguity, the programmer can 
 second interpretation by preﬁxing an argument with an ampersand (a pun on C syntax for
 taking the address of a value), as in &x.
 
-###2.14 Parallelism
+### 2.14 Parallelism
+ 
 Parallel execution is provided by a message-based multi-processing system implemented in
 Julia in the standard library. The language design supports the implementation of such
 libraries by providing symmetric coroutines, which can also be thought of as cooperatively
@@ -412,7 +429,8 @@ libraries, rather than requiring the user to set up callbacks. Julia does not cu
 native threads, which is a limitation, but has the advantage of avoiding the complexities of
 synchronized use of shared memory.
 
-###2.15 Design Limitations
+### 2.15 Design Limitations
+ 
 In our design, type information always ﬂows along with values, in the forward control ﬂow
 direction. This prevents us from doing certain tricks that static type systems are capable
 of, such as return-type overloading. Return-type overloading requires a robust notion of the
@@ -432,13 +450,15 @@ Lastly, at this time Julia uses a bit more memory than we would prefer. Our comp
 data structures, type information, and generated native code take up more space than the
 compact bytecode representations used by many dynamic languages.
 
-##3 Implementation
+## 3 Implementation
+ 
 Much of the implementation is organized around method dispatch. The dispatch logic is both
 a large portion of the behavior of Julia functions, and the entry point of the compiler’s type
 inference and specialization logic.
 10
 
-###3.1 Method Caching and Specialization
+### 3.1 Method Caching and Specialization
+ 
 The ﬁrst step of method dispatch is to look for the argument types in a per-function cache.
 The cache has an entry for (almost) every set of concrete types to which the function has
 been applied. Concrete types are hash-consed, so they can be compared by simple pointer
@@ -451,7 +471,8 @@ Then, type inference is invoked on the matching method using the types of the ac
 The resulting type-annotated and optimized method is stored in the cache. In this way, method
 dispatch is the primary source of type information for the compiler.
 
-###3.2 Method Specialization Heuristics
+### 3.2 Method Specialization Heuristics
+ 
 Our aggressive use of code specialization has the obvious pitfall that it might lead to excessive
 code generation, consuming memory and compile time. We found that a few mild heuristics
 suﬃce to give a usable system with reasonable resource requirements.
@@ -490,7 +511,8 @@ Finally, we introduce a special type ANY that can be used in a method signature 
 that a slot should not be specialized. This is used in the standard library in a small handful
 of places, and in practice is less important than the heuristics described above.
 
-###3.3 Type Inference
+### 3.3 Type Inference
+ 
 Types of program expressions and variables are inferred by forward dataﬂow analysis
 3
 . The
@@ -588,7 +610,8 @@ end while
 S.rec ← Pr 6= ∅
 13
 
-####3.3.1 Interprocedural Type Inference
+#### 3.3.1 Interprocedural Type Inference
+ 
 Type inference is invoked through “driver” Algorithm 2 which manages mutual recursion and
 memoization of inference results. A stack of abstract activation records is maintained and
 used to detect recursion. Each function has a property incomplete(F, A) indicating that it
@@ -638,7 +661,8 @@ return S
 0
 .R
 
-###3.4 Lattice Operators
+### 3.4 Lattice Operators
+ 
 Our type lattice is complicated by the presence of type parameters, unions, and diagonal
 type constraints in method signatures. Fortunately, for our purposes only the ≤ (subtype)
 relation needs to be computed accurately, as it bears ﬁnal responsibility for whether a method
@@ -658,19 +682,22 @@ We handle this using bounded type variables, eﬀectively representing a range r
 point within the type lattice. In this example, the transfer function for typeof is allowed to
 return Type{T<:Number}, where T is a new type variable.
 
-####3.4.1 Subtype Predicate
+#### 3.4.1 Subtype Predicate
+ 
 See Algorithm 3. Note that extensional type equality can be computed as (A ≤ B ∧ B ≤ A),
 and this is used for types in invariant context (i.e. type parameters). The algorithm uses
 subroutines p(A) which gives the parameters of type A, and super(A) which gives the declared
 supertype of A.
 
-####3.4.2 Type Union
+#### 3.4.2 Type Union
+ 
 Since our type system directly supports unions, the union of T and S can be computed simply
 by constructing the type Union(T,S). An obvious simpliﬁcation is performed: if one of T or S
 is a subtype of the other, it can be removed from the union. Nested union types are ﬂattened,
 followed by pairwise simpliﬁcation.
 
-####3.4.3 Type Intersection
+#### 3.4.3 Type Intersection
+ 
 This is the diﬃcult one: given types T and S, we must try to compute the smallest type R
 such that ∀s, s ∈ T ∧ s ∈ S ⇒ s ∈ R. The conservative solution is to give up on ﬁnding the
 smallest such type, and return some type with this property. Simply returning T or S suﬃces
@@ -801,7 +828,8 @@ u and u∗
 any way that obeys our correctness property. They must be at least as accurate as
 subtype in the case where one argument is concrete.
 
-####3.4.4 Widening Operators
+#### 3.4.4 Widening Operators
+ 
 Lattices used in practical program analyses often fail to obey the ﬁnite chain condition
 necessary for the MFP algorithm to converge (i.e. they are not of ﬁnite height) and ours is no
 exception.
@@ -834,9 +862,11 @@ Finally, we run several of LLVM’s optimization passes. This provides standard 
 optimizations, such as strength reduction, dead code elimination, jump threading, and constant
 folding.
 
-##4 Example Use Cases
+## 4 Example Use Cases
+ 
 
-###4.1 Numeric Type Promotion
+### 4.1 Numeric Type Promotion
+ 
 Numeric types and arithmetic are fundamental to all programming, but deserve extra attention
 in the case of scientiﬁc computing. In traditional compiled languages such as C, the arithmetic
 operators are the most polymorphic “functions”, and hence cannot be written in the language
@@ -928,7 +958,8 @@ branch is taken. applicable is a built-in function known to be free of eﬀects.
 whenever a sharp result type for promote type can be inferred, it is also valid to remove the
 unused arms of the conditional.
 
-###4.2 Code Generation and Staged Functions
+### 4.2 Code Generation and Staged Functions
+ 
 The presence of types and an inference pass creates a new, intermediate translation stage
 which may be customized (macros essentially customize syntax processing, and object systems
 customize run time behavior). This is the stage at which types are known, and it exists in
@@ -1049,7 +1080,8 @@ memory use tends to level oﬀ around 150-200MB. Pointer-heavy data structures c
 of space on 64-bit platforms. To mitigate this problem, we store ASTs and type information
 in a compact serialized format, and deserialize structures when the compiler needs them.
 
-###5.2 Eﬀectiveness of Type Inference
+### 5.2 Eﬀectiveness of Type Inference
+ 
 It is interesting to count compiled expressions for which a concrete type can be inferred. In
 some sense, this tells us “how close” Julia is to being statically typed, though in our case this
 is a property of both the language implementation and the standard library. In a run of our
@@ -1065,7 +1097,8 @@ These numbers are somewhat inaccurate, as they include dead code, and it may be 
 case that better-typed methods tend to be recompiled with diﬀerent frequency than others,
 biasing the numbers.
 
-###5.3 Productivity
+### 5.3 Productivity
+ 
 Our implementation of Julia consists of 11000 lines of C, 4000 lines of C++, and 3500 lines of
 Scheme (here we are not counting code in external libraries such as BLAS and LAPACK).
 Thus we have signiﬁcantly less low-level code to maintain than most scripting languages. Our
@@ -1094,7 +1127,8 @@ We wish to thank our funding agencies for their support via Department of Energy
 de-sc0002099 and National Science Foundation grant CCF-0832997. We also gratefully
 acknowledge gifts from VMWare and Citigroup.
 
-##References
+## References
+ 
 [1] E. Allen, J. Hilburn, S. Kilpatrick, V. Luchangco, S. Ryu, D. Chase, and G. Steele.
 Type checking modular multiple dispatch with parametric polymorphism and multiple
 inheritance. In Proceedings of the 2011 ACM international conference on Object oriented
