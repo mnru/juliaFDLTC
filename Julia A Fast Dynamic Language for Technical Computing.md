@@ -201,7 +201,9 @@ or a String in separate arms of a conditional. In this case its type can be infe
 Union(Int,String). Union types are also useful for deﬁning ad-hoc type hierarchies diﬀerent
 from those imagined when the types involved were ﬁrst deﬁned. Lastly, union types can be
 used to declare methods applicable to multiple types.
-2.4 Type Parameters
+
+## 2.4 Type Parameters
+
 Abstract types, composite types, and bits types may have parameters, which makes it possible
 to express variants of a given type (for example, array types with diﬀerent element types).
 These types are all invariant with respect to their parameters (i.e. two versions of the same
@@ -218,7 +220,9 @@ an ad-hoc abstract supertype of all instantiations one could obtain by ﬁlling 
 parameters.
 This design also makes it easy to add parameters to types later; existing code does not
 need to be modiﬁed.
-2.5 Generic Functions
+
+### 2.5 Generic Functions
+
 The vast majority of Julia functions (in both the library and user programs) are generic
 functions, meaning they contain multiple deﬁnitions or methods for various combinations of
 argument types. When a generic function is applied, the most speciﬁc deﬁnition that matches
