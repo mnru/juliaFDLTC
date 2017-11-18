@@ -1,0 +1,1 @@
+[Julia: A Fast Dynamic Language for Technical Computing.pdf](https://arxiv.org/abs/1209.5145)の翻訳をしようと思っています。
